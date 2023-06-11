@@ -5,9 +5,10 @@ export const GET = async ( req, {params} ) => {
     try {
         await connectToDB()
 
-        const prompt = await Prompt.findById(params.id).populate;
+        const prompt = await Prompt.findById(params.id).populate("creator")
 
         if (!prompt) return new Response("Prompt not found!", {status: 404});
+        
         return new Response(JSON.stringify(prompt), {
             status: 200
         })
@@ -17,9 +18,8 @@ export const GET = async ( req, {params} ) => {
         })
     }
 }
-// Path: (update)
 export const PATCH = async(req, {params}) => {
-    const {prompt, tag} = req.json();
+    const {prompt, tag} = await req.json();
     try {
         await connectToDB()
 
@@ -40,7 +40,6 @@ export const PATCH = async(req, {params}) => {
         })
     }
 }
-
 // Delete
 export const DELETE = async (req, {params}) => {
     try {
